@@ -59,24 +59,24 @@ output:
 
 \textcolor{blue}{Controlling Model Complexity:}
 \newline
-\textcolor{blue}{Lasso (L1 Regularization): In Lasso regression, lamda controls the amount of L1 regularization applied to the model. L1 regularization encourages sparsity in the model by adding a penalty term based on the absolute values of the coefficients. As lamda increases, more coefficients are pushed towards zero, effectively performing feature selection. Larger lamda values lead to simpler models with fewer non-zero coefficients.}
+\textcolor{blue}{Lasso (L1 Regularization): In Lasso regression, lambda controls the amount of L1 regularization applied to the model. L1 regularization encourages sparsity in the model by adding a penalty term based on the absolute values of the coefficients. As lambda increases, more coefficients are pushed towards zero, effectively performing feature selection. Larger lambda values lead to simpler models with fewer non-zero coefficients.}
 
-\textcolor{blue}{Ridge (L2 Regularization): In Ridge regression, lamda controls the amount of L2 regularization applied to the model. This includes a penalty term based on the square of the coefficients. It promotes coefficients to be modest in size while ensuring they remain non-zero. Increasing lamda in Ridge regression results in smaller coefficient values, effectively reducing the impact of less important features.}\vspace{1mm}
+\textcolor{blue}{Ridge (L2 Regularization): In Ridge regression, lambda controls the amount of L2 regularization applied to the model. This includes a penalty term based on the square of the coefficients. It promotes coefficients to be modest in size while ensuring they remain non-zero. Increasing lambda in Ridge regression results in smaller coefficient values, effectively reducing the impact of less important features.}\vspace{1mm}
 
 
 \textcolor{blue}{Trade-Off between Bias and Variance:}
 \newline
-\textcolor{blue}{By adjusting the lamda parameter, We have the ability to manage the balance between bias and variance in the model. A smaller lambda enables the model to closely fit the training data, reducing bias while potentially raising variance, which may result in overfitting. A larger lamda increases bias but reduces variance, promoting model generalization and preventing overfitting.}\vspace{1mm}
+\textcolor{blue}{By adjusting the lambda parameter, We have the ability to manage the balance between bias and variance in the model. A smaller lambda enables the model to closely fit the training data, reducing bias while potentially raising variance, which may result in overfitting. A larger lambda increases bias but reduces variance, promoting model generalization and preventing overfitting.}\vspace{1mm}
 
 \textcolor{blue}{Preventing Overfitting:}
 \newline
-\textcolor{blue}{lamda is a regularization hyperparameter that helps prevent overfitting. Overfitting occurs when a model becomes too complex and fits the training data's noise, resulting in poor performance on new, unseen data. By setting an appropriate value for lamda, we can constrain the model's complexity, making it more likely to generalize well.}\vspace{1mm}
+\textcolor{blue}{lambda is a regularization hyperparameter that helps prevent overfitting. Overfitting occurs when a model becomes too complex and fits the training data's noise, resulting in poor performance on new, unseen data. By setting an appropriate value for lambda, we can constrain the model's complexity, making it more likely to generalize well.}\vspace{1mm}
 
 \textcolor{blue}{Cross-Validation and Hyperparameter Tuning:}
 \newline
-\textcolor{blue}{Determining the optimal lamda value typically involves cross-validation. we can try different values of lamda and evaluate the model's performance using techniques like k-fold cross-validation. The lamda value that results in the best performance on the validation set is selected as the model's hyperparameter.}\vspace{1mm}
+\textcolor{blue}{Determining the optimal lambda value typically involves cross-validation. we can try different values of lambda and evaluate the model's performance using techniques like k-fold cross-validation. The lambda value that results in the best performance on the validation set is selected as the model's hyperparameter.}\vspace{1mm}
 
-\textcolor{blue}{In summary, the lamda parameter in regularized linear models allows we to control the amount of regularization applied to the model. Adjusting lamda is a crucial step in finding the right balance between fitting the training data and preventing overfitting. The selection of lambda relies on the particular dataset, feature attributes, and the performance criteria of the model. Regularization, with the help of lamda, is a powerful tool for building more robust and generalizable linear models.}\vspace{5mm}
+\textcolor{blue}{In summary, the lambda parameter in regularized linear models allows we to control the amount of regularization applied to the model. Adjusting lambda is a crucial step in finding the right balance between fitting the training data and preventing overfitting. The selection of lambda relies on the particular dataset, feature attributes, and the performance criteria of the model. Regularization, with the help of lambda, is a powerful tool for building more robust and generalizable linear models.}\vspace{5mm}
 
 \textcolor{red}{Reference:-}
 \newline
