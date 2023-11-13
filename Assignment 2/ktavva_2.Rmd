@@ -1,0 +1,76 @@
+---
+title: "ktavva_2"
+author: "Krishna Kumar Tavva"
+date: "2023-11-12"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list = ls())
+
+```
+
+```{r}
+library(ISLR)
+library(dplyr)
+library(glmnet)
+library(caret)
+library(rpart)
+library(rpart.plot)
+```
+
+```{r}
+Carseats_Filtered <- Carseats %>% select("Sales", "Price", "Advertising","Population",
+                                         "Age","Income","Education")
+```
+
+# Q1
+
+```{r}
+M1 <- rpart(Sales~., data=Carseats_Filtered)
+
+summary(M1)
+
+#plot decision tree
+
+rpart.plot(M1)
+```
+
+# Q2
+
+```{r}
+input <- data.frame(Sales=9, Price=6.54, Population=124, Advertising=0, Age=76, 
+                    Income= 110, Education=10)
+
+M2 <- predict(M1, input)
+
+```
+#Estimated saled for this record is 9.586
+
+# Q3
+
+```{r}
+set.seed(1)
+
+M3 <- train(Sales~., data=Carseats_Filtered, method= 'rf')
+
+summary(M3)
+
+print(M3)
+
+plot(M3)
+```
+
+#since 2 mtry is the lowest RMSE, this value yields the best performance.
+
+# Q4
+
+```{r}
+train_control <- trainControl(method="repeatedcv", number=5, repeats=3, search="grid")
+tune_grid <- expand.grid(.mtry=c(2,3,5))
+M4 <- train(Sales~., data=Carseats_Filtered, method='rf', tuneGrid=tune_grid, trControl=train_control)
+print(M4)
+plot(M4)
+```
+#for mtry values of 2, 3 and 5 using 3 repeats of 5-fold cross validation, the final value used for the model was mtry = 2
