@@ -1,0 +1,99 @@
+---
+title: "ktavva_3"
+author: "Krishna Kumar Tavva"
+date: "2023-12-06"
+output:
+  pdf_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list = ls())
+
+```
+
+# Part-A
+
+*Q1. Support Vector Machines (SVM) are supervised machine learning algorithms that are used for classification and regression tasks. The main difference between SVM with hard margin and SVM with soft margin is how they handle the presence of outliers and noisy data points in dataset. SVM with hard margin approach assumes that the data is linearly separable and can be sensitive to the outliers as it is highly problematic in finding the hyperplane. However, the SVM with soft margin approach allows for some miscalculations, introducing a margin of flexibility and can find a balance between margin width and misclassifications using a hyperparameter (C). In summary, SVM with hard margin is stricter and only works with data that is linearly separable, whereas SVM with soft margin is more flexible handling some misclassifications and outliers.*
+
+*Q2. cost parameter, often denoted as C, in SVM with a soft margin is like a tuning knob managing the balance between achieving a seamless decision boundary (larger C) and allowing some misclassifications for a wider margin (smaller C). It influences the penalty for misclassifying data points, acting as a regularization term to prevent overfitting. A smaller C allows for a wider margin but tolerates more miscalculations, potentially introducing flexibility. However, a larger C limits the margin, penalizing miscalculations more, which might lead to overfitting. The optimal C depends on the problem's complexity and the level of noise in the data, striking a balance between a broad margin and minimizing misclassifications.*
+
+*Q3. Lets calculate the sum of the inputs, weighted by their corresponding weights.* \newline
+0.1 * 0.8 + 11.1 * (-0.2) = 0.08 - 2.22 = -2.14 \newline
+*As we can see above, the weighted sum of inputs (-2.14) is smaller than the activation threshold (2.8). Consequently, the perceptron will not activate. Therefore, the output of the perceptron is 0.*
+
+*Q4. The delta rule is a widely used algorithm in machine learning for enhancing the accuracy of neural network models by adjusting their weights. In the delta rule, the learning rate parameter, known as alpha, governs the extent to which weights are modified in each training iteration. The significance of alpha, the learning rate in the delta rule, lies in its control over the step size during weight updates. Setting alpha too high can lead to larger and potentially unstable weight updates, introducing erratic behavior in the model. Conversely, if alpha is set too low, weight updates become smaller, prolonging the convergence process to find a solution. In summary, alpha in the delta rule, is essential to ensure effective and stable learning outcomes.*
+
+*Ref:* \newline
+*https://towardsdatascience.com/support-vector-machine-introduction-to-machine-learning-algorithms-934a444fca47* \newline
+*https://www.analyticsvidhya.com/blog/2021/10/support-vector-machinessvm-a-complete-guide-for-beginners/* \newline
+*https://scikit-learn.org/stable/modules/svm.html* \newline
+
+# Part-B
+
+```{r}
+library(ISLR)
+library(dplyr)
+library(glmnet)
+library(caret)
+library(kernlab)
+```
+
+```{r}
+Carseats_Filtered <- Carseats %>% select("Sales", "Price", "Advertising","Population",
+                                         "Age","Income","Education")
+```
+
+
+*Q1.Build a linear SVM regression model to predict Sales based on all other attributes ("Price", "Advertising", "Population", "Age", "Income" and "Education"). Hint: use caret train() with method set to “svmLinear”. What is the R-squared of the model?*
+
+```{r}
+train_control <- trainControl(method = "repeatedcv", number = 10, repeats = 3)
+set.seed(123)
+SVM_Linear <- train(Sales~., data = Carseats_Filtered, method = "svmLinear",
+trControl=train_control,
+preProcess = c("center", "scale"),
+tuneLength = 10)
+SVM_Linear
+```
+#The Rˆ2 of the model is 0.3666477
+
+*Q2.Customize the search grid by checking the model’s performance for C parameter of 0.1,.5,1 and 10 using 2 repeats of 5-fold cross validation.*
+
+```{r}
+grid <- expand.grid(C = c(0.1,0.5,1,10))
+train_control_2 <- trainControl(method = "repeatedcv", number = 5, repeats = 2)
+SVM_Linear_grid <- train(Sales~., data = Carseats_Filtered, method = "svmLinear",
+trControl=train_control_2,
+preProcess = c("center", "scale"),
+tuneGrid = grid,
+tuneLength = 10)
+SVM_Linear_grid
+```
+#The most suitable C value is 0.5 since it corresponds to a more significant difference between the respective RMSE values.
+
+*Q3.Train a neural network model to predict Sales based on all other attributes ("Price", "Advertising", "Population", "Age", "Income" and "Education"). Hint: use caret train() with method set to “nnet”. What is the R-square of the model with the best hyper parameters (using default caret search grid) – hint: don’t forget to scale the data.*
+
+```{r}
+set.seed(123)
+numberfolds <- trainControl(method = 'LOOCV', verboseIter = FALSE)
+nnet_cars <- train(Sales~., data = Carseats_Filtered, method = "nnet",
+preProcess = c("center", "scale"),
+trControl = numberfolds)
+nnet_cars
+```
+
+#The final values used for the model were size = 1 and decay = 1e-04. As the R^squared value is not available, the closest R^squared value avalibale for size = 1 and decay = 1e-01 is 0.3213884.
+
+*Q4.Consider the following input: Sales=9, Price=6.54, Population=124, Advertising=0, Age=76, Income= 110, Education=10. What will be the estimated Sales for this record using the above neuralnet model?*
+
+```{r}
+
+input <- data.frame(Sales=9, Price=6.54, Population=124, Advertising=0, Age=76, 
+                    Income= 110, Education=10)
+prediction_sales <- predict(nnet_cars, input)
+prediction_sales
+
+```
+#The estimated sales for the given data is 1.
